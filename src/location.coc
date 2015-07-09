@@ -1,0 +1,12 @@
+import json
+
+data location(name, roles):
+    pass
+
+def parse_location_file(filepath):
+    location_list = []
+    with open(filepath, "r") as location_file:
+        location_dict = json.loads(location_file.read())
+        for name, roles in location_dict.items():
+            location_list.append(location(name, roles))
+    return location_list
