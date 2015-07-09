@@ -1,10 +1,11 @@
 class ircbot():
-  def __init__(self, ip, port, channel, messagehandler, nick="spyfall", prefix="@spyfall"):
+  def __init__(self, ip, port, channel, messagehandler, timehandler, nick="spyfall", prefix="@spyfall"):
     self.ip = ip
     self.port = port
     self.channel = channel
     self.prefix = prefix
     self.messagehandler = messagehandler
+    self.timehandler = timehandler
 
     self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.socket.connect((ip, port))
@@ -46,4 +47,5 @@ class ircbot():
 
   def run(self):
     while True:
+      self.timehandler()
       self.update()
