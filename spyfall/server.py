@@ -36,7 +36,7 @@ class server:
     args = message.strip().lower().split()[1:]
 
     if (command == "help"):
-      irc.send(self.helpmessage) 
+      irc.send(self.helpmessage)
     elif (self.state == self.IDLE):
       if (command == "prepare"):
         self.state = self.JOIN
@@ -45,7 +45,7 @@ class server:
         try:
           self.timelimit = int(args[1]) * 60
         except Exception:
-          irc.send("Please specify a number") 
+          irc.send("Please specify a number")
         else:
           irc.send("Time limit set to " + self.timelimit + " seconds")
     elif (self.state == self.JOIN):
@@ -82,7 +82,7 @@ class server:
 
   def timehandle(self):
     if (time() > self.endtime):
-      self.irc.send("Ding Ding Ding! Time's up!") 
+      self.irc.send("Ding Ding Ding! Time's up!")
       self.state = self.IDLE
       self.stop()
     elif (time() > self.nextminute):

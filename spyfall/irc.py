@@ -1,3 +1,5 @@
+import socket
+
 class ircbot():
   def __init__(self, ip, port, channel, messagehandler, timehandler, nick="spyfall", prefix="@spyfall"):
     self.ip = ip
@@ -19,7 +21,7 @@ class ircbot():
 
   def psend(self, nick, message):
     self.socket.send("PRIVMSG " + nick + " :" + message + "\n")
-  
+
   def pong(self):
     self.socket.send("PONG :pingis\n")
 
@@ -35,7 +37,7 @@ class ircbot():
     elif re.match(r'^PING', data):
       return 'PING', ' ', ' '
     return False, False, False
-    
+
   def update(self):
     dtype,sender,message = self.recv(2048)
     if not dtype or not sender or not message:
