@@ -1,0 +1,22 @@
+import random
+
+data game(location, players):
+    def roles(self):
+        out = [""]
+        roles = self.location.roles |> list
+        for i in range(0, self.players-1):
+            if i < len(roles):
+                out.append(roles[i])
+            else:
+                out.append(random.choice(roles))
+        random.shuffle(out)
+        return out
+    def messages(self):
+        for role in self.roles():
+            if role:
+                yield "You have been given the role "+role+" at the location "+self.location.name+"."
+            else:
+                yield "You are the spy!"
+
+def new_game(locations, players):
+    return game(random.choice(locations), players)
