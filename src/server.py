@@ -20,6 +20,13 @@ class server:
     self.timelimit = 480.0
     self.endtime = 0.0
 
+    self.helpmessage = (
+      "Type '%s prepare' to prepare a game. Then type '%s join' to join. "
+      "Once everyone has joined, type '%s start' to start the game. "
+      "If you want to know how much time is left, type '%s time'. "
+      "If you type '%s stop' or the time runs out, the game is over. "
+    )
+
   def run(self):
     self.irc.run()
 
@@ -28,11 +35,13 @@ class server:
     command = message.strip().lower().split()[0]
     args = message.strip().lower().split()[1:]
 
-    if (self.state == self.IDLE):
-      if (message == "prepare"):
+    if (command == "help"):
+      irc.send(self.helpmessage) 
+    elif (self.state == self.IDLE):
+      if (command == "prepare"):
         self.state = self.JOIN
         irc.send("Preparing for a game! Type '" + irc.prefix + " join' to join!")
-      if (message.split == "limit"):
+      if (command.split == "limit"):
         try:
           self.timelimit = int(args[1]) * 60
         except Exception:
@@ -40,19 +49,19 @@ class server:
         else:
           irc.send("Time limit set to " + self.timelimit + " seconds")
     elif (self.state == self.JOIN):
-      if (message == "join"):
+      if (command == "join"):
         self.players.append(sender)
         irc.send(sender + " has joined the game!")
-      elif (message == "start"):
+      elif (command == "start"):
         self.state = self.PLAY
         self.play()
         irc.send("Game is starting! Too late to join now!")
     elif (self.state == self.PLAY):
-      if (message == "stop"):
+      if (command == "stop"):
         self.state = self.IDLE
         self.stop()
         irc.send("The game has been ended by " + sender + "!")
-      elif (message == "time"):
+      elif (command == "time"):
         irc.send(self.timeleft() + " minutes left!");
     else:
       # The universe is broken
@@ -74,6 +83,8 @@ class server:
   def timehandle(self):
     if (time() > self.endtime):
       self.irc.send("Ding Ding Ding! Time's up!") 
+      self.state = self.IDLE
+      self.stop()
     elif (time() > self.nextminute):
       self.irc.send(self.timeleft() + " minutes left!");
       self.nextminute += 60.0
