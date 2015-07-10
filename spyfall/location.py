@@ -61,3 +61,6 @@ def parse_location_file(filepath):
         for name, roles in location_dict.items():
             location_list.append(location(name, roles))
     return location_list
+
+def show_locations(locations):
+    return "Locations:\n" + "\n".join([location.name for location in locations])

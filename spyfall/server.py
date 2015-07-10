@@ -1,4 +1,4 @@
-from location import parse_location_file
+from location import parse_location_file, show_locations
 from spyfall import new_game
 from irc import ircbot
 from re import *
@@ -72,6 +72,7 @@ class server:
     for p, m in zip(players, game.messages()):
       self.irc.psend(p, m)
     self.irc.send("Roles have been private messaged to each player!")
+    self.irc.send(show_locations(self.locations))
     self.endtime = time() + self.timelimit
 
   def stop(self):
