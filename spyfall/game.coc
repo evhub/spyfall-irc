@@ -4,6 +4,7 @@ data game(location, players):
     def roles(self):
         out = [""]
         roles = self.location.roles |> list
+        random.shuffle(roles)
         for i in range(0, self.players-1):
             if i < len(roles):
                 out.append(roles[i])

@@ -55,6 +55,7 @@ class game(__coconut__.data('game', 'location, players')):
     def roles(self):
         out = [""]
         roles = list(self.location.roles)
+        random.shuffle(roles)
         for i in range(0, self.players - 1):
             if i < len(roles):
                 out.append(roles[i])

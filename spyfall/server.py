@@ -1,5 +1,5 @@
 from location import parse_location_file, show_locations
-from spyfall import new_game
+from game import new_game
 from irc import ircbot
 from re import *
 from time import time
